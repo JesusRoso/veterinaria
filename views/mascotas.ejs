@@ -1,8 +1,7 @@
 <%- include ('template/cabecera', {tituloweb: 'Tienda de mascotas'}); %>
-
-
-<h1>Hola a EJS <%= listaMascotas %></h1>
-
+<!-- <h1>Hola a EJS <%= listaMascotas %></h1> -->
+<h1>Crud mongo + heroku</h1>
+<a href="/mascotas/crear" class="btn btn-success btn-block my-4">Crear nueva mascotas</a>
 <table class="table">
     <thead>
         <tr>
@@ -18,7 +17,7 @@
             <tr>
                 <th scope="row"><%= mascota.id %></th>
                 <td><%= mascota.nombre %></td>
-                <td><%= mascota.descripción %></td>
+                <td><%= mascota.descripcion %></td>
                 <td>@mdo</td>
             </tr>
         <%})%>

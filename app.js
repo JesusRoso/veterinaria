@@ -4,16 +4,24 @@ var app = express();
 require('dotenv').config();
 const port = process.env.PORT || 3000;
 
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json()); 
+
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
 app.use(express.static(__dirname+"/public"))
+
+
 
 //conexión a mongo por medio de mongoose
 const mongoose = require('mongoose');
 const usuario = process.env.USUARIO;
 const password = process.env.PASSWORD
 const dbName = process.env.DBNAME;
+
 const uri = `mongodb+srv://${usuario}:${password}@cluster0.dqo3v.mongodb.net/${dbName}?retryWrites=true&w=majority`
 mongoose.connect(uri, {useNewUrlParser:true, useUnifiedTopology:true})
 .then(()=>console.log('conectado a mongodb'))
