@@ -2,12 +2,14 @@ const mongoose = require('mongoose');
 const router = require('../router/RutasWeb');
 const Schema = mongoose.Schema;
 
-const mascotaSchema = new Schema({
+const tiendaSchema = new Schema({
     nombre:String,
     descripcion:String,
+    direccion:String,
+    contacto:String
 });
 
-const mascota = mongoose.model('Mascota',mascotaSchema);
+const tienda = mongoose.model('Tienda',tiendaSchema);
 
 
-module.exports=mascota;
+module.exports=tienda;

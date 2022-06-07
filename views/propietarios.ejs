@@ -1,0 +1,40 @@
+<%- include ('template/cabecera', {tituloweb: 'Propietario'}); %>
+
+<div class="mx-5">
+<h1>Propietario</h1>
+<a href="/propietarios/crearPropietario" class="btn btn-success btn-block my-4">Crear Propietario</a>
+<table class="table my-2" style="margin: 10px 10px;">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Documento</th>
+            <th scope="col">Edad</th>
+            <th scope="col">Contacto</th>
+            <th scope="col">Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% if(arrayPropietarios.length>0){ %>
+        <% arrayPropietarios.forEach(propietario=>{ %>
+            <tr>
+                <th scope="row"><%= propietario.id %></th>
+                <td><%= propietario.nombre %></td>
+                <td><%= propietario.apellido %></td>
+                <td><%= propietario.documento %></td>
+                <td><%= propietario.edad %></td>
+                <td><%= propietario.contacto %></td>
+                <td>
+                    <a class="btn btn-warning btn-sm" href="propietarios/<%= propietario.id %>">Editar Propietario</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary btn-sm" href="propietarios/<%= propietario.id %>/verMascotas">Ver mascotas</a>
+                </td>
+            </tr>
+        <%})%>
+        <%}%>
+    </tbody>
+</table>
+</div>
+<%- include('template/footer'); %>

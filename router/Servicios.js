@@ -2,15 +2,13 @@ const express = require('express');
 const res = require('express/lib/response');
 const router = express.Router();
 
-const mascota = require('../models/mascotas');
-const propietario = require('../models/propietarios');
+const servicio = require('../models/servicios');
 
 router.get('/', async (req, res)=>{
     try
     {
-        const arrayPropietarios = await propietario.find();
-        const arrayMascotas = await mascota.find();
-        res.render("mascotas",{listaMascotas:"Aquí irán todas las mascotas",arrayMascotas})
+        const arrayServicios = await servicio.find();
+        res.render("servicios",{listaServicios:"Aquí irán todos los servicios",arrayServicios})
     }
     catch(error)
     {
@@ -18,15 +16,16 @@ router.get('/', async (req, res)=>{
     } 
 })
 
-router.get('/crear',(req,res)=>{
-    res.render('crear');
+router.get('/crearServicios',(req,res)=>{
+    res.render('crearServicios');
 });
 
 router.post('/', async (req,res)=>{
     const body = req.body
+    console.log(body);
     try{
-        await mascota.create(body);
-        res.redirect('/mascotas');
+        await servicio.create(body);
+        res.redirect('/servicios');
     }catch(error){
         console.log('error',error);
     }
@@ -36,17 +35,17 @@ router.get('/:id',async(req,res)=>{
     const id = req.params.id
     try
     {
-        const mascotaBD = await mascota.findOne({_id: id})
-        console.log(mascotaBD);
-        res.render('detalle',{
-            mascota: mascotaBD,
+        const servicioBD = await servicio.findOne({_id: id})
+        console.log(servicioBD);
+        res.render('detalleServicio',{
+            servicio: servicioBD,
             error: false
         });
     } 
     catch(error)
     {
         console.log("error: ", error);
-        res.render('detalle',{
+        res.render('detalleServicio',{
             error: true,
             mensaje: "No se encuentra el documento"
         });
@@ -57,9 +56,9 @@ router.delete('/:id', async(req, res)=>{
     console.log('id desde backend', id);
     try
     {
-        const mascotaBD = await mascota.findByIdAndDelete({_id: id});
-        console.log(mascotaBD);
-        if(!mascotaBD)
+        const servicioBD = await servicio.findByIdAndDelete({_id: id});
+        console.log(servicioBD);
+        if(!servicioBD)
         {
             res.json({
                 estado: false,
@@ -87,13 +86,13 @@ router.put('/:id' , async (req, res)=>{
     console.log('body', body);
     try
     {
-        const mascotaDB = await mascota.findByIdAndUpdate(
+        const servicioDB = await servicio.findByIdAndUpdate(
             id, body, {useFindAndModify: false}
         )
-        console.log(mascotaDB);
+        console.log(servicioDB);
         res.json({
             estado: true,
-            mensaje: 'Mascotas editada'
+            mensaje: 'Servicio editado'
         });
     }
     catch(error)
@@ -101,9 +100,8 @@ router.put('/:id' , async (req, res)=>{
         console.log(error);
         res.json({
             estado: false,
-            mensaje: 'Mascotas fallada'
+            mensaje: 'Servicio fallada'
         });
     }
 });
 module.exports= router;
-

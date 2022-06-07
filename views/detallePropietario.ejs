@@ -1,0 +1,127 @@
+<%- include ('template/cabecera', {tituloweb: 'Tienda de mascotas'}); %>
+<div class="container">
+    <h1>Detalle Propietario</h1>
+    <% if (error){%>
+        <%= mensaje %>
+        <a href="/propietarios" class="btn btn-dark btn-block my-2">Volver</a>
+    <%}%>
+    <% if (!error) {%>
+        <form id="editar" data-id="<%= propietario.id %>">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Documento</th>
+                    <th scope="col">Edad</th>
+                    <th scope="col">Contacto</th>
+                    <th scope="col">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><%=propietario.id%></th>
+                    <td><input type="text" value="<%= propietario.nombre %>" 
+                        name="nombre" id="nombreInput" class="form-control my-2">
+                    </td>
+                    <td>
+                        <input type="text" value="<%= propietario.apellido %>" 
+                        name="apellido" id="apellidoInput" class="form-control my-2">
+                    </td>
+                    <td>
+                        <input type="text" value="<%= propietario.documento %>" 
+                        name="documento" id="documentoInput" class="form-control my-2">
+                    </td>
+                    <td>
+                        <input type="text" value="<%= propietario.edad %>" 
+                        name="edad" id="edadInput" class="form-control my-2">
+                    </td>
+                    <td>
+                        <input type="text" value="<%= propietario.contacto %>" 
+                        name="contacto" id="contactoInput" class="form-control my-2">
+                    </td>
+                    <td><button class="btn btn-warning btn-sm" type="submit">Editar</button></td>
+                    
+                    <td>
+                        <button class="btn btn-danger btn-sm" data-id="<%=propietario.id%>">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </form>
+    <script>
+        const btnEliminar = document.querySelector('.btn-danger');
+        btnEliminar.addEventListener('click', async()=>{
+            console.log(btnEliminar.dataset.id);
+            try
+            {
+                const data = await fetch(`/propietarios/${btnEliminar.dataset.id}`,{
+                    method: 'delete'
+                })
+                const resu=await data.json;
+                console.log(resu);
+                if(resu.estado)
+                {
+                    window.setTimeout(()=>{
+                        window.location.href = "/propietarios"
+                    },2000);
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Acción realizada de forma correcta',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }) 
+                }
+                else
+                {
+                    console.log(resu)
+                }
+
+            }catch(error){
+                console.log(error);
+            }
+        });
+
+        const formEditar = document.querySelector("#editar");
+        formEditar.addEventListener('submit', async(e) =>{
+            e.preventDefault();
+            const nombre = formEditar.elements['nombre'].value;
+            const apellido = document.querySelector("#apellidoInput").value;
+            const documento = document.querySelector("#documentoInput").value;
+            const edad= document.querySelector("#edadInput").value;
+            const contacto= document.querySelector("#contactoInput").value;
+            
+            const id = formEditar.dataset.id;
+            const data = await fetch(`/propietarios/${id}`,{
+                method: 'PUT',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({nombre, apellido, documento, edad, contacto})
+            })
+            const res = await data.json();
+            if(res.estado)
+            {
+                window.setTimeout(()=>{
+                    window.location.href = "/propietarios"
+                },2000);
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Acción realizada de forma correcta',
+                    showConfirmButton: false,
+                    timer: 1500
+                }); 
+            }
+            else
+            {
+                console.log(res)
+            }
+        })
+
+    </script>
+   <% }%>
+</div>
+<%- include('template/footer'); %>

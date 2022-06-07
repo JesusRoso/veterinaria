@@ -1,8 +1,9 @@
 <%- include ('template/cabecera', {tituloweb: 'Tienda de mascotas'}); %>
-<!-- <h1>Hola a EJS <%= listaMascotas %></h1> -->
-<h1>Crud mongo + heroku</h1>
+
+<div class="mx-5">
+<h1>Mascotas</h1>
 <a href="/mascotas/crear" class="btn btn-success btn-block my-4">Crear nueva mascotas</a>
-<table class="table">
+<table class="table " >
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -18,11 +19,14 @@
                 <th scope="row"><%= mascota.id %></th>
                 <td><%= mascota.nombre %></td>
                 <td><%= mascota.descripcion %></td>
-                <td>@mdo</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" href="mascotas/<%= mascota.id %>">Editar</a>
+                </td>
             </tr>
         <%})%>
 
         <%}%>
     </tbody> 
 </table>
+</div>
 <%- include('template/footer'); %>

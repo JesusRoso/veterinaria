@@ -1,0 +1,120 @@
+<%- include ('template/cabecera', {tituloweb: 'Tienda de mascotas'}); %>
+<div class="container">
+    <h1>Detalle tienda</h1>
+    <% if (error){%>
+        <%= mensaje %>
+        <a href="/tienda" class="btn btn-dark btn-block my-2">Volver</a>
+    <%}%>
+    <% if (!error) {%>
+        <form id="editar" data-id="<%= tienda.id %>">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Contacto</th>
+                    <th scope="col">Dirección</th>
+                    <th scope="col">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><%=tienda.id%></th>
+                    <td><input type="text" value="<%= tienda.nombre %>" 
+                        name="nombre" id="nombreInput" class="form-control my-2">
+                    </td>
+                    <td>
+                        <input type="text" value="<%= tienda.descripcion %>" 
+                        name="descripcion" id="descripcionInput" class="form-control my-2">
+                    </td>
+                    <td>
+                        <input type="text" value="<%= tienda.contacto %>" 
+                        name="contacto" id="contactoInput" class="form-control my-2">
+                    </td>
+                    <td>
+                        <input type="text" value="<%= tienda.direccion %>" 
+                        name="direccion" id="direccionInput" class="form-control my-2">
+                    </td>
+                    <td><button class="btn btn-warning btn-sm" type="submit">Editar</button></td>
+                    
+                    <td>
+                        <button class="btn btn-danger btn-sm" data-id="<%=tienda.id%>">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </form>
+    <script>
+        const btnEliminar = document.querySelector('.btn-danger');
+        btnEliminar.addEventListener('click', async()=>{
+            console.log(btnEliminar.dataset.id);
+            try
+            {
+                const data = await fetch(`/tienda/${btnEliminar.dataset.id}`,{
+                    method: 'delete'
+                })
+                const resu=await data.json;
+                console.log(resu);
+                if(resu.estado)
+                {
+                    window.setTimeout(()=>{
+                        window.location.href = "/tienda"
+                    },2000);
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Acción realizada de forma correcta',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }) 
+                }
+                else
+                {
+                    console.log(resu)
+                }
+
+            }catch(error){
+                console.log(error);
+            }
+        });
+
+        const formEditar = document.querySelector("#editar");
+        formEditar.addEventListener('submit', async(e) =>{
+            e.preventDefault();
+            const nombre = formEditar.elements['nombre'].value;
+            const descripcion = document.querySelector("#descripcionInput").value;
+            const contacto= document.querySelector("#contactoInput").value;
+            const direccion= document.querySelector("#direccionInput").value;
+            const id = formEditar.dataset.id;
+            const data = await fetch(`/tienda/${id}`,{
+                method: 'PUT',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({nombre, descripcion})
+            })
+            const res = await data.json();
+            if(res.estado)
+            {
+                window.setTimeout(()=>{
+                    window.location.href = "/tienda"
+                },2000);
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Acción realizada de forma correcta',
+                    showConfirmButton: false,
+                    timer: 1500
+                }); 
+            }
+            else
+            {
+                console.log(res)
+            }
+        })
+
+    </script>
+   <% }%>
+</div>
+<%- include('template/footer'); %>

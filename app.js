@@ -31,6 +31,12 @@ mongoose.connect(uri, {useNewUrlParser:true, useUnifiedTopology:true})
 
 app.use('/',require('./router/RutasWeb'));
 app.use('/mascotas',require('./router/Mascotas'));
+app.use('/tienda',require('./router/Tiendas'));
+app.use('/propietarios',require('./router/Propietarios'));
+app.use('/servicios',require('./router/Servicios'));
+app.use('/propietarioMascota',require('./router/PropietarioMascotas'));
+app.use('/servicioTienda',require('./router/ServicioTiendas'));
+app.use('/asignarServicio',require('./router/AsignarServicio'));
 
 
 app.use((req, res, next)=>{
