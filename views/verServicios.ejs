@@ -1,0 +1,25 @@
+<%- include ('template/cabecera', {tituloweb: 'Propietario'}); %>
+<div class="mx-5 my-5">
+<h1>Ver Servicios</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% servicioTienda.forEach(servicio=>{ %>
+            <% arrayServicioDB.forEach(serv=>{ %>
+                <%if(servicio.id_servicio==serv.id){ %>
+                    <tr>
+                        <td><%=serv.descripcion%></td>
+                        <td><%=serv.precio%></td>
+                    </tr>
+                <% }%>  
+            <%})%>
+        <%})%> 
+    </tbody>
+</table>
+</div>
+<%- include('template/footer'); %>

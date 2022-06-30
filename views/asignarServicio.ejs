@@ -1,0 +1,90 @@
+<%- include ('template/cabecera', {tituloweb: 'Servicio-Tienda'}); %>
+<div class="mx-5 my-5">
+<h1>Servicio-Tienda</h1>
+<form action="/asignarServicio" class="my-2" method="post">
+    <label for="">Mascota</label>
+    <select name="id_mascota_propietario" id="" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+    <% if(arrayPropietarioMascotas.length>0){ %>
+        <% arrayPropietarioMascotas.forEach(mascotaPropietario=>{ %>
+            <% arrayMascota.forEach(masc=>{ %>
+                <%if(mascotaPropietario.id_mascota==masc.id){ %>
+                    <option value="<%= mascotaPropietario.id %>">Masacota: <%= masc.nombre %></option>
+                <% }%>  
+            <%})%>
+        <%})%>
+    <%}%>
+    </select>
+    <label for="">Servicio y tienda</label>
+    <select name="id_servicio_tienda" id="" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+    <% if(arrayServicioTiendas.length>0){ %>
+        <% arrayServicioTiendas.forEach(servicioTienda=>{ %>
+            <% arrayServicio.forEach(serv=>{ %>
+                <%if(servicioTienda.id_servicio==serv.id){ %>
+                    <option value="<%= servicioTienda.id %>">Servicio: <%= serv.descripcion %> -
+                <% }%>  
+            <%})%>
+            <% arrayTienda.forEach(tien=>{ %>
+                <%if(servicioTienda.id_tienda==tien.id){ %>
+                    Tienda: <%=tien.nombre%></option>
+                <% }%>  
+            <%})%>
+        <%})%>
+    <%}%>
+    </select>
+    <button type="submit" class="btn btn-dark btn-block">Agregar</button>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Mascota</th>
+            <th scope="col">Servicio</th>
+            <th scope="col">Tienda</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% if(arrayAsignarServicio.length>0){ %>
+        <% arrayAsignarServicio.forEach(mascota=>{ %>
+            <tr>
+                <th scope="row"><%= mascota.id %></th>
+                <td>
+                    <% arrayPropietarioMascotas.forEach(mascotaPropietario=>{ %>
+                        <%if(mascota.id_mascota_propietario==mascotaPropietario.id){ %>
+                            
+                            <% arrayMascota.forEach(masc=>{ %>
+                                <%if(mascotaPropietario.id_mascota==masc.id){ %>
+                                    <%= masc.nombre %>
+                                <% }%>  
+                            <%})%>
+                        <% }%>  
+                    <%})%>
+                </td>
+                <td>
+                    <% arrayServicioTiendas.forEach(servicioTienda=>{ %>
+                        <%if(mascota.id_servicio_tienda==servicioTienda.id){ %>
+                            <% arrayServicio.forEach(serv=>{ %>
+                                <%if(servicioTienda.id_servicio==serv.id){ %>
+                                    <%= serv.descripcion %>
+                                <% }%>  
+                            <%})%>
+                        <% }%>  
+                    <%})%>
+                </td>
+                <td>
+                    <% arrayServicioTiendas.forEach(servicioTienda=>{ %>
+                        <%if(mascota.id_servicio_tienda==servicioTienda.id){ %>
+                            <% arrayTienda.forEach(tien=>{ %>
+                                <%if(servicioTienda.id_tienda==tien.id){ %>
+                                    <%= tien.nombre %>
+                                <% }%>  
+                            <%})%>
+                        <% }%>  
+                    <%})%>
+                </td>
+            </tr>
+        <%})%>
+    <%}%>
+    </tbody> 
+</table>
+</div>
+<%- include('template/footer'); %>

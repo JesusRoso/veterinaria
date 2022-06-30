@@ -1,0 +1,25 @@
+<%- include ('template/cabecera', {tituloweb: 'Propietario'}); %>
+<div class="mx-5 my-5">
+<h1>Ver Mascotas</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% propietarioMascota.forEach(propietario=>{ %>
+            <% arraymascotaDB.forEach(masc=>{ %>
+                <%if(propietario.id_mascota==masc.id){ %>
+                    <tr>
+                        <td><%=masc.nombre%></td>
+                        <td><%=masc.descripcion%></td>
+                    </tr>
+                <% }%>  
+            <%})%>
+        <%})%> 
+    </tbody>
+</table>
+</div>
+<%- include('template/footer'); %>

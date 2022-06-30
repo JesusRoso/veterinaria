@@ -1,0 +1,31 @@
+<%- include ('template/cabecera', {tituloweb: 'Servicios'}); %>
+
+<div class="mx-5">
+<h1>Servicios</h1>
+<a href="/servicios/crearServicios" class="btn btn-success btn-block my-4">Crear Servicio</a>
+<table class="table my-2" style="margin: 10px 10px;">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if(arrayServicios.length>0){ %>
+            <% arrayServicios.forEach(servicio=>{ %>
+                <tr>
+                    <th scope="row"><%= servicio.id %></th>
+                    <td><%= servicio.descripcion %></td>
+                    <td><%= servicio.precio %></td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="servicios/<%= servicio.id %>">Editar servicio</a>
+                    </td>
+                </tr>
+            <%})%>
+            <%}%>
+        </tbody> 
+    </table>
+</div>
+<%- include('template/footer'); %>
