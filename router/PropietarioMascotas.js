@@ -11,7 +11,9 @@ router.get('/', async (req, res)=>{
     {
         const arrayMascotas = await mascotas.find();
         const arrayPropietarios = await propietario.find();
-        res.render("propietarioMascota",{listaPropietarioMascotas:"Aquí irán todos propietarios",arrayPropietarios,arrayMascotas})
+        const arrayPropietarioMascotas = await propietarioMascotas.find();
+        res.render("propietarioMascota",{listaPropietarioMascotas:"Aquí irán todos propietarios",
+                    arrayPropietarios,arrayMascotas,arrayPropietarioMascotas})
     }
     catch(error)
     {

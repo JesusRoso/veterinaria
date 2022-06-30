@@ -12,8 +12,17 @@
     <select name="id_mascota" id="" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
     <% if(arrayMascotas.length>0){ %>
         <% arrayMascotas.forEach(mascota=>{ %>
-            <option value="<%= mascota.id %>"><%= mascota.nombre %></option>
-        <%})%>
+            <% var tienePropietario = 0 %>
+            <% for(const value of arrayPropietarioMascotas){ %>
+                <% if(value.id_mascota==mascota.id){ %>
+                    <% tienePropietario=1; %>
+                    <% break; %>
+                <%}%>
+            <%}%>
+            <% if(tienePropietario!=1){ %>
+                <option value="<%= mascota.id %>"><%= mascota.nombre %></option>
+            <%}%>
+        <%})%>     
     <%}%>
     </select>
     <button type="submit" class="btn btn-dark btn-block">Agregar</button>

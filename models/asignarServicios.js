@@ -4,7 +4,9 @@ const Schema = mongoose.Schema;
 
 const asignarServicioSchema = new Schema({
     id_mascota_propietario:String,
-    id_servicio_tienda:String
+    id_servicio_tienda:String,
+    fecha_consulta:Date,
+    cantidad:String
 });
 
 const asignarServicio = mongoose.model('AsignarServicios',asignarServicioSchema);
