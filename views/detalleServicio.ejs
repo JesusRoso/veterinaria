@@ -1,0 +1,108 @@
+<%- include ('template/cabecera', {tituloweb: 'Tienda de mascotas'}); %>
+<div class="container">
+    <h1>Detalle servicio</h1>
+    <% if (error){%>
+        <%= mensaje %>
+        <a href="/servicios" class="btn btn-dark btn-block my-2">Volver</a>
+
+    <%}%>
+    <% if (!error) {%>
+        <form id="editar" data-id="<%= servicio.id %>">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><%=servicio.id%></th>
+                    <td><input type="text" value="<%= servicio.descripcion %>" 
+                        name="descripcion" id="descripcionInput" class="form-control my-2"></td>
+                    <td>
+                        <input type="text" value="<%= servicio.precio %>" 
+                        name="precio" id="precioInput" class="form-control my-2">
+                    </td>
+                    <td><button class="btn btn-warning btn-sm" type="submit">Editar</button></td>
+                    
+                    <td>
+                        <button class="btn btn-danger btn-sm" data-id="<%=servicio.id%>">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </form>
+    <script>
+        const btnEliminar = document.querySelector('.btn-danger');
+        btnEliminar.addEventListener('click', async()=>{
+            console.log(btnEliminar.dataset.id);
+            try
+            {
+                const data = await fetch(`/servicios/${btnEliminar.dataset.id}`,{
+                    method: 'delete'
+                })
+                const res=await data.json;
+                console.log(res);
+                if(res.estado)
+                {
+                    window.setTimeout(()=>{
+                        window.location.href = "/servicios"
+                    },2000);
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Acción realizada de forma correcta',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }) 
+                }
+                else
+                {
+                    console.log(res)
+                }
+
+            }catch(error){
+                console.log(error);
+            }
+        });
+
+        const formEditar = document.querySelector("#editar");
+        formEditar.addEventListener('submit', async(e) =>{
+            e.preventDefault();
+            const precio = formEditar.elements['precio'].value;
+            const descripcion = document.querySelector("#descripcionInput").value;
+            const id = formEditar.dataset.id;
+            const data = await fetch(`/servicios/${id}`,{
+                method: 'PUT',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({descripcion, precio})
+            })
+            const res = await data.json();
+            if(res.estado)
+            {
+                window.setTimeout(()=>{
+                    window.location.href = "/servicios"
+                },2000);
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Acción realizada de forma correcta',
+                    showConfirmButton: false,
+                    timer: 1500
+                }); 
+            }
+            else
+            {
+                console.log(res)
+            }
+        })
+
+    </script>
+   <% }%>
+</div>
+<%- include('template/footer'); %>

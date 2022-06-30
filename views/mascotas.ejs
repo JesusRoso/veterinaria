@@ -1,0 +1,32 @@
+<%- include ('template/cabecera', {tituloweb: 'Tienda de mascotas'}); %>
+
+<div class="mx-5">
+<h1>Mascotas</h1>
+<a href="/mascotas/crear" class="btn btn-success btn-block my-4">Crear nueva mascotas</a>
+<table class="table " >
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% if(arrayMascotas.length>0){ %>
+        <% arrayMascotas.forEach(mascota=>{ %>
+            <tr>
+                <th scope="row"><%= mascota.id %></th>
+                <td><%= mascota.nombre %></td>
+                <td><%= mascota.descripcion %></td>
+                <td>
+                    <a class="btn btn-warning btn-sm" href="mascotas/<%= mascota.id %>">Editar</a>
+                </td>
+            </tr>
+        <%})%>
+
+        <%}%>
+    </tbody> 
+</table>
+</div>
+<%- include('template/footer'); %>

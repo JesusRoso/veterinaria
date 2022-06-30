@@ -1,0 +1,38 @@
+<%- include ('template/cabecera', {tituloweb: 'Tienda'}); %>
+
+<div class="mx-5">
+<h1>Tienda</h1>
+<a href="/tienda/crearTienda" class="btn btn-success btn-block my-4">Crear Tienda</a>
+<table class="table my-2" style="margin: 10px 10px;">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Contacto</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% if(arrayTiendas.length>0){ %>
+        <% arrayTiendas.forEach(tienda=>{ %>
+            <tr>
+                <th scope="row"><%= tienda.id %></th>
+                <td><%= tienda.nombre %></td>
+                <td><%= tienda.descripcion %></td>
+                <td><%= tienda.contacto %></td>
+                <td><%= tienda.direccion %></td>
+                <td>
+                    <a class="btn btn-warning btn-sm" href="tienda/<%= tienda.id %>">Editar tienda</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary btn-sm" href="tienda/<%= tienda.id %>/verServicios">Ver servicios</a>
+                </td>
+            </tr>
+        <%})%>
+        <%}%>
+    </tbody> 
+</table>
+</div>
+<%- include('template/footer'); %>
