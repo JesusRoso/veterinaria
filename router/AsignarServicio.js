@@ -8,10 +8,7 @@ const asignarServicios = require('../models/asignarServicios');
 const mascotas = require('../models/mascotas');
 const servicio = require('../models/servicios');
 const tienda = require('../models/tienda');
-<<<<<<< HEAD
 const propietario = require('../models/propietarios');
-=======
->>>>>>> a7ff6e8d5d5feaad1f725ea1eeb6fb4e26e80db7
 
 router.get('/', async (req, res)=>{
     try
@@ -22,7 +19,6 @@ router.get('/', async (req, res)=>{
         const arrayMascota = await mascotas.find();
         const arrayServicio = await servicio.find();
         const arrayTienda = await tienda.find();
-<<<<<<< HEAD
         const arrayPropietario = await propietario.find();
         const arreglos = [];
         arrayServicioTiendas.forEach(elem=>{
@@ -33,12 +29,6 @@ router.get('/', async (req, res)=>{
         res.render("asignarServicio",{listaAsignarServicios:"Aquí irán coasas",
         arrayPropietarioMascotas,arrayServicioTiendas,arrayMascota,arrayServicio,
         arrayAsignarServicio,arrayTienda,arrayPropietario,arreglo:arreglos})
-=======
-        
-        res.render("asignarServicio",{listaAsignarServicios:"Aquí irán coasas",
-        arrayPropietarioMascotas,arrayServicioTiendas,arrayMascota,arrayServicio,
-        arrayAsignarServicio,arrayTienda})
->>>>>>> a7ff6e8d5d5feaad1f725ea1eeb6fb4e26e80db7
     }
     catch(error)
     {
