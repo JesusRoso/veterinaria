@@ -6,7 +6,6 @@
 <table class="table my-2" style="margin: 10px 10px;">
     <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col">Nombre</th>
             <th scope="col">Descripción</th>
             <th scope="col">Contacto</th>
@@ -18,7 +17,6 @@
     <% if(arrayTiendas.length>0){ %>
         <% arrayTiendas.forEach(tienda=>{ %>
             <tr>
-                <th scope="row"><%= tienda.id %></th>
                 <td><%= tienda.nombre %></td>
                 <td><%= tienda.descripcion %></td>
                 <td><%= tienda.contacto %></td>

@@ -6,7 +6,6 @@
 <table class="table my-2" style="margin: 10px 10px;">
     <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col">Nombre</th>
             <th scope="col">Apellido</th>
             <th scope="col">Documento</th>
@@ -19,7 +18,6 @@
     <% if(arrayPropietarios.length>0){ %>
         <% arrayPropietarios.forEach(propietario=>{ %>
             <tr>
-                <th scope="row"><%= propietario.id %></th>
                 <td><%= propietario.nombre %></td>
                 <td><%= propietario.apellido %></td>
                 <td><%= propietario.documento %></td>

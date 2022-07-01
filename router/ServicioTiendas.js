@@ -11,7 +11,9 @@ router.get('/', async (req, res)=>{
     {
         const arrayTiendas = await tienda.find();
         const arrayServicios = await servicio.find();
-        res.render("servicioTienda",{listaServicioTiendas:"Aquí irán serviciosTienda",arrayTiendas,arrayServicios})
+        const arrayServicioTienda = await servicioTienda.find();
+        res.render("servicioTienda",{listaServicioTiendas:"Aquí irán serviciosTienda",
+        arrayTiendas,arrayServicios,arrayServicioTienda})
     }
     catch(error)
     {

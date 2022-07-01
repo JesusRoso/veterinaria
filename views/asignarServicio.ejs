@@ -1,90 +1,252 @@
 <%- include ('template/cabecera', {tituloweb: 'Servicio-Tienda'}); %>
 <div class="mx-5 my-5">
-<h1>Servicio-Tienda</h1>
-<form action="/asignarServicio" class="my-2" method="post">
-    <label for="">Mascota</label>
-    <select name="id_mascota_propietario" id="" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-    <% if(arrayPropietarioMascotas.length>0){ %>
-        <% arrayPropietarioMascotas.forEach(mascotaPropietario=>{ %>
-            <% arrayMascota.forEach(masc=>{ %>
-                <%if(mascotaPropietario.id_mascota==masc.id){ %>
-                    <option value="<%= mascotaPropietario.id %>">Masacota: <%= masc.nombre %></option>
-                <% }%>  
+    <h1>Asignar servicio</h1>
+    <form action="/asignarServicio" id="formulario" class="my-2" method="post">
+        <label for="">Mascota</label>
+        <select name="id_mascota_propietario" id="id_mascota_propietario" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+        <% if(arrayPropietarioMascotas.length>0){ %>
+            <% arrayPropietarioMascotas.forEach(mascotaPropietario=>{ %>
+                <% arrayMascota.forEach(masc=>{ %>
+                    <%if(mascotaPropietario.id_mascota==masc.id){ %>
+                        <option value="<%= masc.nombre %>">Masacota: <%= masc.nombre %></option>
+                    <% }%>  
+                <%})%>
             <%})%>
-        <%})%>
-    <%}%>
-    </select>
-    <label for="">Servicio y tienda</label>
-    <select name="id_servicio_tienda" id="" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-    <% if(arrayServicioTiendas.length>0){ %>
-        <% arrayServicioTiendas.forEach(servicioTienda=>{ %>
-            <% arrayServicio.forEach(serv=>{ %>
-                <%if(servicioTienda.id_servicio==serv.id){ %>
-                    <option value="<%= servicioTienda.id %>">Servicio: <%= serv.descripcion %> -
-                <% }%>  
-            <%})%>
+        <%}%>
+        </select>
+        
+        <label for="">Tienda</label>
+        <select onchange="cambio();" id="id_tienda" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="" id="id_servicio_tienda">
+             <option value="" disabled selected>Seleccione tienda</option>   
             <% arrayTienda.forEach(tien=>{ %>
-                <%if(servicioTienda.id_tienda==tien.id){ %>
-                    Tienda: <%=tien.nombre%></option>
-                <% }%>  
+                <option id="label" value="<%= tien.id %>"> Tienda: <%=tien.nombre%></option>
             <%})%>
-        <%})%>
-    <%}%>
-    </select>
-    <button type="submit" class="btn btn-dark btn-block">Agregar</button>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Mascota</th>
-            <th scope="col">Servicio</th>
-            <th scope="col">Tienda</th>
-        </tr>
-    </thead>
-    <tbody>
-    <% if(arrayAsignarServicio.length>0){ %>
-        <% arrayAsignarServicio.forEach(mascota=>{ %>
-            <tr>
-                <th scope="row"><%= mascota.id %></th>
-                <td>
-                    <% arrayPropietarioMascotas.forEach(mascotaPropietario=>{ %>
-                        <%if(mascota.id_mascota_propietario==mascotaPropietario.id){ %>
-                            
-                            <% arrayMascota.forEach(masc=>{ %>
-                                <%if(mascotaPropietario.id_mascota==masc.id){ %>
-                                    <%= masc.nombre %>
-                                <% }%>  
-                            <%})%>
-                        <% }%>  
-                    <%})%>
-                </td>
-                <td>
-                    <% arrayServicioTiendas.forEach(servicioTienda=>{ %>
-                        <%if(mascota.id_servicio_tienda==servicioTienda.id){ %>
-                            <% arrayServicio.forEach(serv=>{ %>
-                                <%if(servicioTienda.id_servicio==serv.id){ %>
-                                    <%= serv.descripcion %>
-                                <% }%>  
-                            <%})%>
-                        <% }%>  
-                    <%})%>
-                </td>
-                <td>
-                    <% arrayServicioTiendas.forEach(servicioTienda=>{ %>
-                        <%if(mascota.id_servicio_tienda==servicioTienda.id){ %>
-                            <% arrayTienda.forEach(tien=>{ %>
-                                <%if(servicioTienda.id_tienda==tien.id){ %>
-                                    <%= tien.nombre %>
-                                <% }%>  
-                            <%})%>
-                        <% }%>  
-                    <%})%>
-                </td>
-            </tr>
-        <%})%>
-    <%}%>
-    </tbody> 
-</table>
+        </select>
+        <label for="">Servicio</label>
+        <select name="" id="selectServicio" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"></select>
+        <label for="">Fecha de la consulta</label>
+        <input type="datetime-local" name="fecha_consulta" id="fecha_consultada" class="form-control my-2">
+        <label for="">Cantidad</label>
+        <input type="number" name="cantidad" id="cantidad" class="form-control my-2" required>
+        <button type="button" onclick="AgregarDatos();" class="btn btn-dark btn-block">Agregar</button>
+    </form>
+    <h1 style="margin-top:100px ;">Factura</h1>
+    <div id="contenedor" style="border:2px solid black ;">
+        <div class="info_cliente">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td id="direccionTienda"></td>
+                    </tr>
+                    <tr>
+                        <td id="telefonoTienda"></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr id="info_tienda" style="display: flex;">
+                        <td id="td1"></td>
+                        <td id="td2"></td>
+                        <td id="td3"></td>
+                        <td id="td4"></td>
+                    </tr>
+                    <tr>
+                        <td id="documentoPropietario"></td>
+                    </tr>
+                    <!-- <tr>
+                        <td>Direccion: calle 84a 50-2</td>
+                    </tr> -->
+                    <tr>
+                        <td id="telefonoPropietario"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="desripcion_servicio">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">DESCRIPCION</th>
+                        <th scope="col">Valor Unitario</th>
+                        <th scope="col">Valor Total</th>
+                    </tr>
+                </thead>
+                <tbody id="filaResultado">
+                    <tr>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>    
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td></td><td></td>
+                        <td>Subtotal</td>
+                        <td id="subtotal_valor_total"></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td>
+                        <td>Iva 16%</td>
+                        <td id="iva_valor_total"></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td>
+                        <td>Total</td>
+                        <td id="total_valor_total"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="valor_total"></div>
+    </div>
+    <button style="margin-top:10px ;" onclick="limpiar();" id="limpiar" type="button" class="btn btn-dark btn-block">Limpiar Factura</button>
 </div>
+
+<script>
+    let precioSubtotal=0;
+    function limpiar(){
+        document.getElementById("id_tienda").removeAttribute('disabled');
+        document.getElementById("id_mascota_propietario").removeAttribute('disabled');
+        document.getElementById("fecha_consultada").removeAttribute('disabled');
+        const formulario = document.getElementById("formulario");
+        formulario.reset();
+        $("#filaResultado tr").remove();
+        document.getElementById("direccionTienda").innerHTML=``;
+        document.getElementById("telefonoTienda").innerHTML=``;
+        document.getElementById("td1").innerHTML=``;
+        document.getElementById("td2").innerHTML=``;
+        document.getElementById("td3").innerHTML=``;
+        document.getElementById("td4").innerHTML=``;
+        document.getElementById("telefonoPropietario").innerHTML=``;
+        document.getElementById("documentoPropietario").innerHTML=``;
+        document.getElementById("subtotal_valor_total").innerHTML=``;
+        document.getElementById("iva_valor_total").innerHTML=``;
+        document.getElementById("total_valor_total").innerHTML=``;
+        precioSubtotal=0; 
+    }
+    
+    function cambio()
+    {
+        const id_tienda = document.getElementById("id_tienda").value;
+        var arregloNombreServicio = [];
+        for (let i = document.querySelector('#selectServicio').options.length; i >= 0; i--) {
+            document.querySelector('#selectServicio').remove(i);
+        }
+        "<% arrayServicio.forEach(lem=>{ %>"
+            arregloNombreServicio.push("<%= lem.descripcion %>");
+        "<% }) %>"
+        "<% arrayServicioTiendas.forEach(servicioTiendas=>{ %>"
+            if("<%= servicioTiendas.id_tienda %>"==id_tienda){
+                "<% arrayServicio.forEach(servicio=>{ %>"
+                    if("<%=servicioTiendas.id_servicio%>"=="<%=servicio.id%>")
+                    {
+                        let row = `<option id="option" value="<%=servicio.id%>"><%=servicio.descripcion%></option>`;
+                        document.querySelector('#selectServicio').insertAdjacentHTML('afterbegin',row);
+                    }
+                "<% }) %>"  
+            }
+        "<% }) %>"
+    }
+    var contador=0;
+    
+    function AgregarDatos()
+    {
+        //Declaracion de variables y constantes
+        let nombreTienda = "";
+        let direccionTienda = "";
+        let telefonoTienda = "";
+        let nombreServicio = "";
+        let precioServicio = "";
+        const id_tienda = document.getElementById("id_tienda").value;
+        const cantidad = document.getElementById("cantidad").value;
+        const id_servicio = document.getElementById("selectServicio").value;
+        const nombreMascota = document.getElementById("id_mascota_propietario").value;
+        let fecha_consultada = document.getElementById("fecha_consultada").value;
+        let precioTotal=0;
+        
+        if(cantidad==0 || fecha_consultada=="" || id_tienda=="" || id_servicio=="" || nombreMascota==""){
+            Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Debe llenar todos los campos',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            return false;
+        }
+        //Desabilitar los select de mascota, tienda, fecha
+        document.getElementById("id_tienda").setAttribute('disabled', 'true');
+        document.getElementById("id_mascota_propietario").setAttribute('disabled', 'true');
+        document.getElementById("fecha_consultada").setAttribute('disabled', 'true');
+        
+        //
+        var idMascota = "";
+        var idPropietario="";
+        var nombrePropietario="";
+        var documentoPropietario="";
+        var telefonoPropietario="";
+        "<% arrayMascota.forEach(mascota=>{ %>"
+            if("<%=mascota.nombre%>"==nombreMascota){
+                idMascota="<%=mascota.id%>";
+            }
+        "<% }) %>"
+
+        "<% arrayPropietarioMascotas.forEach(propietarioMascotas=>{ %>"
+            if("<%=propietarioMascotas.id_mascota%>"==idMascota)
+            {
+                idPropietario="<%=propietarioMascotas.id_propietario%>";
+            }
+        "<% }) %>"
+
+        "<% arrayPropietario.forEach(propietario=>{ %>"
+            if("<%=propietario.id%>"==idPropietario)
+            {
+                documentoPropietario="<%=propietario.documento%>";
+                nombrePropietario="<%=propietario.nombre%>"+" "+"<%=propietario.apellido%>";
+                telefonoPropietario = "<%=propietario.contacto%>";
+            }
+        "<% }) %>"
+        document.getElementById("documentoPropietario").innerHTML=`Nit : ${documentoPropietario}`;
+        document.getElementById("telefonoPropietario").innerHTML=`Telefono : ${telefonoPropietario}`;
+        "<% arrayTienda.forEach(tienda=>{ %>"
+            if("<%=tienda.id%>"==id_tienda)
+            {
+                nombreTienda = "<%=tienda.nombre%>"
+                direccionTienda = "<%=tienda.direccion%>"
+                telefonoTienda = "<%=tienda.contacto%>"
+            }
+        "<% }) %>"
+        document.getElementById("direccionTienda").innerHTML=`Direccion : ${direccionTienda}`;
+        document.getElementById("telefonoTienda").innerHTML=`Teléfono : ${telefonoTienda}`;
+        "<% arrayServicio.forEach(servicio=>{ %>"
+            if("<%=servicio.id%>"==id_servicio)
+            {
+                nombreServicio = "<%=servicio.descripcion%>";
+                precioServicio = "<%=servicio.precio%>"
+            }
+        "<% }) %>"
+        precioTotal = (parseInt(precioServicio)*cantidad);
+        let fila = `
+        <tr>
+            <td>${cantidad}</td>
+            <td>${nombreServicio}</td>
+            <td>${precioServicio}</td>
+            <td>${precioTotal}</td>
+        </tr>
+        `;
+        document.querySelector('#filaResultado').insertAdjacentHTML('afterbegin',fila)
+
+        //info tienda
+        if(contador==0){
+            let td1 = document.getElementById("td1").innerHTML=`Cliente: ${nombrePropietario}`;
+            let td2 = document.getElementById("td2").innerHTML=`Mascota: ${nombreMascota}`;
+            let td3 = document.getElementById("td3").innerHTML=`Veterinaria: ${nombreTienda}`;
+            let td4 = document.getElementById("td4").innerHTML=`Fecha: ${fecha_consultada}`;
+        }
+        precioSubtotal = precioSubtotal+precioTotal;
+        let iva = precioSubtotal*0.16;
+        const subtotal_valor_total = document.getElementById("subtotal_valor_total").innerHTML=`${precioSubtotal}`;
+        const iva_valor_total = document.getElementById("iva_valor_total").innerHTML=`${iva}`;
+        const total_valor_total = document.getElementById("total_valor_total").innerHTML=`${precioSubtotal+iva}`;
+        // contador++;
+    }  
+</script>
 <%- include('template/footer'); %>
